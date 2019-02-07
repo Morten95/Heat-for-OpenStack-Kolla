@@ -72,6 +72,9 @@ parameters:
   sec_group_win:
     type: comma_delimited_list
     description: Security group for windows
+  script_param:
+    type: string
+    description: bootscript param
 
 resources:
   private_net1:
@@ -133,9 +136,11 @@ resources:
         - port: { get_resource: manager_port1 }
         - port: { get_resource: manager_port2 }
       user_data_format: RAW
-        user_data:
-          str_replace:
-            template: { get_file: manager.sh }
+      user_data:
+        str_replace: 
+          template: { get_file: manager.sh } 
+          params: 
+            param1: { get_param: script_param }
 
   manager_port1:
     type: OS::Neutron::Port
@@ -170,9 +175,11 @@ resources:
         - port: { get_resource: keystone_port1 }
         - port: { get_resource: keystone_port2 }
       user_data_format: RAW
-        user_data:
-          str_replace:
-            template: { get_file: node.sh }
+      user_data:
+        str_replace:
+          template: { get_file: node.sh }
+          params:
+            param1: { get_param: script_param }
 
   keystone_port1:
     type: OS::Neutron::Port
@@ -207,9 +214,11 @@ resources:
         - port: { get_resource: nova_port1 }
         - port: { get_resource: nova_port2 }
       user_data_format: RAW
-        user_data:
-          str_replace:
-            template: { get_file: node.sh }
+      user_data:
+        str_replace:
+          template: { get_file: node.sh }
+          params:
+            param1: { get_param: script_param }
 
   nova_port1:
     type: OS::Neutron::Port
@@ -244,9 +253,11 @@ resources:
         - port: { get_resource: glance_port1 }
         - port: { get_resource: glance_port2 }
       user_data_format: RAW
-        user_data:
-          str_replace:
-            template: { get_file: node.sh }
+      user_data:
+        str_replace:
+          template: { get_file: node.sh }
+          params:
+            param1: { get_param: script_param }
 
   glance_port1:
     type: OS::Neutron::Port
@@ -281,9 +292,11 @@ resources:
         - port: { get_resource: neutron_port1 }
         - port: { get_resource: neutron_port2 }
       user_data_format: RAW
-        user_data:
-          str_replace:
-            template: { get_file: node.sh }
+      user_data:
+        str_replace:
+          template: { get_file: node.sh }
+          params:
+            param1: { get_param: script_param }
 
   neutron_port1:
     type: OS::Neutron::Port
