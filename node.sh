@@ -11,7 +11,7 @@ sudo -H pip install --ignore-installed PYYAML
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 sudp apt update
-sudo apt-get -y install docker-ce="5:18.09.1~3-0~ubuntu-xenial" docker-ce-cli="5:18.09.1~3-0~ubuntu-xenial" containerd.io
+sudo apt-get -y install docker-ce
 #echo "installing docker" >> /home/ubuntu/log.txt
 #sudo curl -sSL https://get.docker.io | bash
 #sudo apt-get upgrade -y docker

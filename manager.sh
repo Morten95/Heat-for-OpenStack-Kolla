@@ -34,7 +34,13 @@ echo "sudo -H pip install --ignore-installed PYYAML" >> /home/ubuntu/log.txt
 echo "[defaults]
 host_key_checking=False
 pipelining=True
-forks=100" >> /etc/ansible/ansible.cfg
+forks=100
+# some basic default values...
+inventory=/root/multinode.ini
+sudo_user=root
+remote_port=22 
+gathering=smart
+deprecation_warnings = False" >> /etc/ansible/ansible.cfg
 echo "kopierte ting til ansible.cfg" >> /home/ubuntu/log.txt
 
 sudo pip install kolla-ansible
@@ -74,6 +80,33 @@ echo "cp kolla-ansible/ansible/inventory/* ." >> /home/ubuntu/log.txt
 kolla-genpwd
 echo "kolla-genpwd" >> /home/ubuntu/log.txt
 
+echo "kolla_base_distro: "ubuntu"
+
+# Valid options are [ binary, source ]
+kolla_install_type: "source"
+
+# Valid option is Docker repository tag
+openstack_release: "master"
+
+# IPen til enten keystone eller nova (den vi brukte var nova)
+kolla_internal_vip_address: "192.168.51.208"
+
+# Sett fungerer interface
+network_interface: "ens3"
+
+enable_haproxy: "no"
+
+# vet ikke hvorfor vi hadde denne(var ikke bort-kommentert)
+glance_enable_rolling_upgrade: "no"
+
+# Config for keystone
+# Valid options are [ fernet ]
+keystone_token_provider: 'fernet'
+
+keystone_admin_user: "admin"
+
+keystone_admin_project: "admin"" >> /etc/kolla/globals.yml
+
 # Installing docker
 echo "installing docker" >> /home/ubuntu/log.txt
 sudo curl -sSL https://get.docker.io | bash
@@ -100,6 +133,41 @@ sudo apt-get -y install ntp
 echo "install ntp" >> /home/ubuntu/log.txt
 sudo service libvirt-bin stop
 sudo update-rc.d libvirt-bin disable
+
+echo "[control]
+# Keystone (fyll inn ip eller hostname manuelt)
+192.168.51.208 ansible_ssh_user=ubuntu ansible_become=True ansible_private_key_file=/home/ubuntu/.ssh/bachelor.pem
+[network]
+# nova (fyll inn ip eller hostname)
+192.168.51.202 ansible_ssh_user=ubuntu ansible_become=True ansible_private_key_file=/home/ubuntu/.ssh/bachelor.pem
+
+[deployment]
+#ansible_host=192.168.51.*
+#ansible_host:=192.168.51.*
+
+[baremetal:children]
+control
+network
+
+[baremetal:vars]
+ansible_ssh_user=ubuntu
+ansible_ssh_private_key=/home/ubuntu/.ssh/bachelor.pem
+ansible_become=True
+
+[bifrost:children]
+deployment
+
+[keystone:children]
+control
+
+[rabbitmq:children]
+control
+
+[memcached:children]
+control
+
+[mariadb:children]
+control" >> multinode.ini
 
 echo "Done!!" >> /home/ubuntu/log.txt
 
