@@ -116,10 +116,8 @@ sudo apt-get update
 sudo apt-cache policy docker-ce
 sudo apt-get install -y docker-ce
 
-sudo apt-get upgrade docker-engine
 echo "sudo apt-get upgrade docker-engine" >>  /home/ubuntu/log.txt
 echo $(docker --version) >>  /home/ubuntu/log.txt
-sudo pip install -U docker-py
 sudo pip install -U docker
 sudo mkdir -p /etc/systemd/system/docker.service.d
 cat <<EOF > /etc/systemd/system/docker.service.d/kolla.conf

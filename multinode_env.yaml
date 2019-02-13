@@ -1,9 +1,9 @@
 parameters:
   key_name1: hamseah
-  name_lin1: manager
-  name_lin2: keystone
-  name_lin3: nova
-  image_lin: Ubuntu Server 16.04 LTS (Xenial Xerus) amd64
+  name_lin1: hmanager
+  name_lin2: hkeystone
+  name_lin3: hnova
+  image_lin: Ubuntu Server 18.04 LTS (Bionic Beaver) amd64
   flavor_small: m1.small
   flavor_medium: m1.medium
   public_net: ntnu-internal
