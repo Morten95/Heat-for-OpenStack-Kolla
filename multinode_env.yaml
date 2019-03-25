@@ -1,10 +1,10 @@
 parameters:
   key_name1: hamseah
-  name_lin1: hmanager
-  name_lin2: hkeystone
-  name_lin3: hnova
+  name_lin1: pmaster
+  name_lin2: agent1
+  name_lin3: database
   image_lin: Ubuntu Server 18.04 LTS (Bionic Beaver) amd64
-  flavor_small: m1.small
+  flavor_small: m1.medium
   flavor_medium: m1.medium
   public_net: ntnu-internal
   private_net_name1: net1
